@@ -26,7 +26,7 @@ trait Authenticator
      */
     public function authenticate(): array
     {
-        $cacheKey = "proxmox_" . hash('sha256', "{$this->hostname}_{$this->port}_{$this->username}_{$this->realm}_" . hash( $this->password ) );
+        $cacheKey = "proxmox_" . hash('sha256', "{$this->hostname}_{$this->port}_{$this->username}_{$this->realm}_" . hash('sha256', $this->password ) );
 
         return \Cache::remember($cacheKey, now()->addMinutes(90), function () {
             try {
